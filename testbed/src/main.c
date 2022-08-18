@@ -12,8 +12,6 @@ int main(void) {
   KDEBUG("A test message: %f", 3.14f);
   KTRACE("A test message: %f", 3.14f);
 
-  KASSERT(1 == 0);
-
   platform_state state;
   if (platform_startup(&state, "Kohi Engine Testbed", 100, 100, 1280, 720)) {
     while (TRUE) {

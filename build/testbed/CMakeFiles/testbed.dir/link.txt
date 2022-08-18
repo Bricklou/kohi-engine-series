@@ -1,0 +1,1 @@
+/usr/bin/clang -g CMakeFiles/testbed.dir/src/main.c.o -o testbed   -L/usr/X11R6  -Wl,-rpath,/usr/X11R6:/home/louis/Documents/programmation/git/kohi-engine-series/build/engine ../engine/libengine.so -lxcb -lX11 -lX11-xcb -lxkbcommon 

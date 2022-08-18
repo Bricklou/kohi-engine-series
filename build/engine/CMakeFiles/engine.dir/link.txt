@@ -1,0 +1,1 @@
+/usr/bin/clang -fPIC -g -shared -Wl,-soname,libengine.so -o libengine.so CMakeFiles/engine.dir/src/core/logger.c.o CMakeFiles/engine.dir/src/platform/platform_linux.c.o CMakeFiles/engine.dir/src/platform/platform_win32.c.o   -L/usr/X11R6  -Wl,-rpath,/usr/X11R6 -lxcb -lX11 -lX11-xcb -lxkbcommon 

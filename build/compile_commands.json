@@ -1,0 +1,22 @@
+[
+{
+  "directory": "/home/louis/Documents/programmation/git/kohi-engine-series/build/engine",
+  "command": "/usr/bin/clang -Dengine_EXPORTS -I/home/louis/Documents/programmation/git/kohi-engine-series/engine/src -g -fPIC -o CMakeFiles/engine.dir/src/core/logger.c.o -c /home/louis/Documents/programmation/git/kohi-engine-series/engine/src/core/logger.c",
+  "file": "/home/louis/Documents/programmation/git/kohi-engine-series/engine/src/core/logger.c"
+},
+{
+  "directory": "/home/louis/Documents/programmation/git/kohi-engine-series/build/engine",
+  "command": "/usr/bin/clang -Dengine_EXPORTS -I/home/louis/Documents/programmation/git/kohi-engine-series/engine/src -g -fPIC -o CMakeFiles/engine.dir/src/platform/platform_linux.c.o -c /home/louis/Documents/programmation/git/kohi-engine-series/engine/src/platform/platform_linux.c",
+  "file": "/home/louis/Documents/programmation/git/kohi-engine-series/engine/src/platform/platform_linux.c"
+},
+{
+  "directory": "/home/louis/Documents/programmation/git/kohi-engine-series/build/engine",
+  "command": "/usr/bin/clang -Dengine_EXPORTS -I/home/louis/Documents/programmation/git/kohi-engine-series/engine/src -g -fPIC -o CMakeFiles/engine.dir/src/platform/platform_win32.c.o -c /home/louis/Documents/programmation/git/kohi-engine-series/engine/src/platform/platform_win32.c",
+  "file": "/home/louis/Documents/programmation/git/kohi-engine-series/engine/src/platform/platform_win32.c"
+},
+{
+  "directory": "/home/louis/Documents/programmation/git/kohi-engine-series/build/testbed",
+  "command": "/usr/bin/clang -DKIMPORT=1 -D_DEBUG=1 -I/home/louis/Documents/programmation/git/kohi-engine-series/testbed/src -I/home/louis/Documents/programmation/git/kohi-engine-series/engine/src -g -o CMakeFiles/testbed.dir/src/main.c.o -c /home/louis/Documents/programmation/git/kohi-engine-series/testbed/src/main.c",
+  "file": "/home/louis/Documents/programmation/git/kohi-engine-series/testbed/src/main.c"
+}
+]

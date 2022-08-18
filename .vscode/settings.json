@@ -1,12 +1,12 @@
 {
-  "C_Cpp.intelliSenseEngine": "Default",
   "files.associations": {
     "*.md": "markdown",
     ".nycrc": "json",
     "*.yaml": "yaml",
     "test.h": "c",
     "system_error": "cpp",
-    "logger.h": "c"
+    "logger.h": "c",
+    "platform.h": "c"
   },
   "todohighlight.isEnable": true,
   "todohighlight.keywords": [
@@ -31,5 +31,13 @@
     "backgroundColor": "#ffab00",
     "overviewRulerColor": "rgba(0,0,0,0)",
     "isWholeLine": false
-  }
+  },
+  "cmake.exportCompileCommandsFile": true,
+  "clangd.arguments": [
+    "-log=verbose",
+    "-pretty",
+    "--background-index",
+    "--compile-commands-dir=${workspaceRoot}/build/"
+  ],
+  "clang-tidy.buildPath": "${workspaceFolder}/build/"
 }
