@@ -1,0 +1,9 @@
+{
+  "C_Cpp.intelliSenseEngine": "Default",
+  "files.associations": {
+    "*.md": "markdown",
+    ".nycrc": "json",
+    "*.yaml": "yaml",
+    "test.h": "c"
+  }
+}
