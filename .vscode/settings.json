@@ -9,7 +9,9 @@
     "logger.h": "c",
     "platform.h": "c",
     "game_types.h": "c",
-    "application.h": "c"
+    "application.h": "c",
+    "chrono": "cpp",
+    "variant": "cpp"
   },
   "todohighlight.isEnable": true,
   "todohighlight.keywords": [
