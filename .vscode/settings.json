@@ -11,7 +11,8 @@
     "game_types.h": "c",
     "application.h": "c",
     "chrono": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "input.h": "c"
   },
   "todohighlight.isEnable": true,
   "todohighlight.keywords": [
