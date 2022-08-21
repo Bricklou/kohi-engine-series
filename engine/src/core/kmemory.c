@@ -1,10 +1,9 @@
 #include "kmemory.h"
 
+#include "core/kstring.h"
 #include "core/logger.h"
 #include "platform/platform.h"
 
-// TODO: Custom string lib
-#include <stdio.h>
 #include <string.h>
 
 struct memory_stats {
@@ -93,6 +92,6 @@ char *get_memory_usage_str() {
     offset += length;
   }
 
-  char *out_string = strndup(buffer, 8000);
+  char *out_string = string_duplicate(buffer);
   return out_string;
 }
