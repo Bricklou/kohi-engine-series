@@ -12,7 +12,8 @@
     "application.h": "c",
     "chrono": "cpp",
     "variant": "cpp",
-    "input.h": "c"
+    "input.h": "c",
+    "*.rh": "c"
   },
   "todohighlight.isEnable": true,
   "todohighlight.keywords": [
