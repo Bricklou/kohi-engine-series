@@ -18,7 +18,8 @@
     "limits": "c",
     "version": "c",
     "*.tcc": "c",
-    "cstdio": "c"
+    "cstdio": "c",
+    "asserts.h": "c"
   },
   "todohighlight.isEnable": true,
   "todohighlight.keywords": [

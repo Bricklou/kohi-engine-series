@@ -9,6 +9,8 @@ cFilenames=$(find . -type f -name "*.c")
 
 # echo "Files:" $cFilenames
 
+echo "VULKAN SDK: $VULKAN_SDK"
+
 assembly="engine"
 compilerFlags="-g -shared -fdeclspec -fPIC"
 # -fms-extensions 
