@@ -31,7 +31,7 @@ int main(void) {
 
   // Initialization
   if (!application_create(&game_inst)) {
-    KINFO("Application failed to create!.");
+    KINFO("Application failed to create!");
     return 1;
   }
 

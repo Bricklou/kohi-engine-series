@@ -9,7 +9,7 @@
  */
 typedef struct game {
   // The application configuration
-  application_config config;
+  application_config app_config;
 
   // Function pointer to game's intialize function
   b8 (*initialize)(struct game *game_inst);

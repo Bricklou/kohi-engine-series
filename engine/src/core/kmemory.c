@@ -4,6 +4,7 @@
 #include "core/logger.h"
 #include "platform/platform.h"
 
+#include <stdio.h>
 #include <string.h>
 
 struct memory_stats {

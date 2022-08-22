@@ -13,7 +13,12 @@
     "chrono": "cpp",
     "variant": "cpp",
     "input.h": "c",
-    "*.rh": "c"
+    "*.rh": "c",
+    "cstddef": "c",
+    "limits": "c",
+    "version": "c",
+    "*.tcc": "c",
+    "cstdio": "c"
   },
   "todohighlight.isEnable": true,
   "todohighlight.keywords": [
