@@ -7,6 +7,7 @@
 
 #include "containers/darray.h"
 
+#include "vulkan_device.h"
 #include "vulkan_platform.h"
 
 // static vulkan context
@@ -85,8 +86,8 @@ b8 vulkan_renderer_backend_initialize(renderer_backend *backend,
     b8 found = FALSE;
 
     for (u32 j = 0; j < available_layer_count; ++j) {
-      if (strings_equals(required_validation_layer_names[i],
-                         available_layers[j].layerName)) {
+      if (strings_equal(required_validation_layer_names[i],
+                        available_layers[j].layerName)) {
 
         found = TRUE;
         KINFO("Found.");
@@ -137,6 +138,20 @@ b8 vulkan_renderer_backend_initialize(renderer_backend *backend,
   KDEBUG("Vulkan debugger created.");
 
 #endif
+
+  // Surface
+  KDEBUG("Creating Vulkan surface...");
+  if (!platform_create_vulkan_surface(plat_state, &context)) {
+    KERROR("Failed to create platform surface!");
+    return FALSE;
+  }
+  KDEBUG("Vulkan surface created.");
+
+  // Device creation
+  if (!vulkan_device_create(&context)) {
+    KERROR("Failed to create device!");
+    return FALSE;
+  }
 
   KINFO("Vulkan renderer initialized successfully.");
 
