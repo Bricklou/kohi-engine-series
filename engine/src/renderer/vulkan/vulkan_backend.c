@@ -160,7 +160,7 @@ b8 vulkan_renderer_backend_initialize(renderer_backend *backend,
 
 void vulkan_renderer_backend_shutdown(renderer_backend *backend) {
 #if defined(_DEBUG)
-  KDEBUG("Destroying Vulkan debugger");
+  KDEBUG("Destroying Vulkan debugger...");
   if (context.debug_messenger) {
     PFN_vkDestroyDebugUtilsMessengerEXT func =
         (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(
