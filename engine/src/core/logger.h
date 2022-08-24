@@ -28,13 +28,11 @@ void shutdown_logging();
 KAPI void log_output(log_level level, const char *message, ...);
 
 // Logs a fatal-level message.
-#define KFATAL(message, ...)                                                   \
-  log_output(LOG_LEVEL_FATAL, message, ##__VA_ARGS__);
+#define KFATAL(message, ...) log_output(LOG_LEVEL_FATAL, message, ##__VA_ARGS__);
 
 #ifndef KERROR
 // Logs an error-level message.
-#define KERROR(message, ...)                                                   \
-  log_output(LOG_LEVEL_ERROR, message, ##__VA_ARGS__);
+#define KERROR(message, ...) log_output(LOG_LEVEL_ERROR, message, ##__VA_ARGS__);
 #endif
 
 #if LOG_WARN_ENABLED == 1
@@ -55,8 +53,7 @@ KAPI void log_output(log_level level, const char *message, ...);
 
 #if LOG_DEBUG_ENABLED == 1
 // Logs a debug-level message.
-#define KDEBUG(message, ...)                                                   \
-  log_output(LOG_LEVEL_DEBUG, message, ##__VA_ARGS__);
+#define KDEBUG(message, ...) log_output(LOG_LEVEL_DEBUG, message, ##__VA_ARGS__);
 #else
 // Does nothing when LOG_DEBUG_ENABLED != 1
 #define KDEBUG(message, ...)
@@ -64,8 +61,7 @@ KAPI void log_output(log_level level, const char *message, ...);
 
 #if LOG_TRACE_ENABLED == 1
 // Logs a trace-level message.
-#define KTRACE(message, ...)                                                   \
-  log_output(LOG_LEVEL_TRACE, message, ##__VA_ARGS__);
+#define KTRACE(message, ...) log_output(LOG_LEVEL_TRACE, message, ##__VA_ARGS__);
 #else
 // Does nothing when LOG_TRACE_ENABLED != 1
 #define KTRACE(message, ...)

@@ -2,12 +2,7 @@
 
 #include "defines.h"
 
-typedef enum buttons {
-  BUTTON_LEFT,
-  BUTTON_RIGHT,
-  BUTTON_MIDDLE,
-  BUTTON_MAX_BUTTONS
-} buttons;
+typedef enum buttons { BUTTON_LEFT, BUTTON_RIGHT, BUTTON_MIDDLE, BUTTON_MAX_BUTTONS } buttons;
 
 #define DEFINE_KEY(name, code) KEY_##name = code
 

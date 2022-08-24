@@ -17,8 +17,7 @@ void *_darray_create(u64 length, u64 stride) {
 void _darray_destroy(void *array) {
   u64 *header = (u64 *)array - DARRAY_FIELD_LENGTH;
   u64 header_size = DARRAY_FIELD_LENGTH * sizeof(u64);
-  u64 total_size =
-      header_size + header[DARRAY_CAPACITY] * header[DARRAY_STRIDE];
+  u64 total_size = header_size + header[DARRAY_CAPACITY] * header[DARRAY_STRIDE];
   kfree(header, total_size, MEMORY_TAG_DARRAY);
 }
 
@@ -35,8 +34,7 @@ void _darray_field_set(void *array, u64 field, u64 value) {
 void *_darray_resize(void *array) {
   u64 length = darray_length(array);
   u64 stride = darray_stride(array);
-  void *temp =
-      _darray_create((DARRAY_RESIZE_FACTOR * darray_capacity(array)), stride);
+  void *temp = _darray_create((DARRAY_RESIZE_FACTOR * darray_capacity(array)), stride);
   kcopy_memory(temp, array, length * stride);
 
   _darray_field_set(temp, DARRAY_LENGTH, length);
@@ -71,8 +69,7 @@ void *_darray_pop_at(void *array, u64 index, void *dest) {
   u64 length = darray_length(array);
   u64 stride = darray_stride(array);
   if (index >= length) {
-    KERROR("Index outside the bounds of this array! Length: %i, index: %index",
-           length, index);
+    KERROR("Index outside the bounds of this array! Length: %i, index: %index", length, index);
     return array;
   }
 
@@ -81,8 +78,7 @@ void *_darray_pop_at(void *array, u64 index, void *dest) {
 
   // If not on the last element, snip out the entry and copy the rest inward.
   if (index != length - 1) {
-    kcopy_memory((void *)(addr + (index * stride)),
-                 (void *)(addr + ((index + 1) * stride)),
+    kcopy_memory((void *)(addr + (index * stride)), (void *)(addr + ((index + 1) * stride)),
                  stride * (length - index));
   }
 
@@ -94,8 +90,7 @@ void *_darray_insert_at(void *array, u64 index, void *value_ptr) {
   u64 length = darray_length(array);
   u64 stride = darray_stride(array);
   if (index >= length) {
-    KERROR("Index outside the bounds of this array! Length: %i, index: %index",
-           length, index);
+    KERROR("Index outside the bounds of this array! Length: %i, index: %index", length, index);
     return array;
   }
   if (length >= darray_capacity(array)) {
@@ -106,8 +101,8 @@ void *_darray_insert_at(void *array, u64 index, void *value_ptr) {
 
   // If not on the last element, copy the rest outward.
   if (index != length - 1) {
-    kcopy_memory((void *)(addr + ((index + 1) * stride)),
-                 (void *)(addr + (index * stride)), stride * (length - index));
+    kcopy_memory((void *)(addr + ((index + 1) * stride)), (void *)(addr + (index * stride)),
+                 stride * (length - index));
   }
 
   // Set the value at the index

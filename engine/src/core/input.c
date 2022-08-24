@@ -41,10 +41,8 @@ void input_update(f64 delta_time) {
   }
 
   // Copy current states to previous states.
-  kcopy_memory(&state.keyboard_current, &state.keyboard_previous,
-               sizeof(keyboard_state));
-  kcopy_memory(&state.mouse_current, &state.mouse_previous,
-               sizeof(mouse_state));
+  kcopy_memory(&state.keyboard_current, &state.keyboard_previous, sizeof(keyboard_state));
+  kcopy_memory(&state.mouse_current, &state.mouse_previous, sizeof(mouse_state));
 }
 
 void input_process_key(keys key, b8 pressed) {
@@ -56,8 +54,7 @@ void input_process_key(keys key, b8 pressed) {
     // Fire off an event for immediate processing
     event_context context;
     context.data.u16[0] = key;
-    event_fire(pressed ? EVENT_CODE_KEY_PRESSED : EVENT_CODE_KEY_RELEASED, 0,
-               context);
+    event_fire(pressed ? EVENT_CODE_KEY_PRESSED : EVENT_CODE_KEY_RELEASED, 0, context);
   }
 }
 
@@ -69,8 +66,7 @@ void input_process_button(buttons button, b8 pressed) {
     // Fire an event
     event_context context;
     context.data.u16[0] = button;
-    event_fire(pressed ? EVENT_CODE_BUTTON_PRESSED : EVENT_CODE_BUTTON_RELEASED,
-               0, context);
+    event_fire(pressed ? EVENT_CODE_BUTTON_PRESSED : EVENT_CODE_BUTTON_RELEASED, 0, context);
   }
 }
 

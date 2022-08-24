@@ -26,10 +26,8 @@ static b8 initialize = FALSE;
 static application_state app_state;
 
 // Event handlers
-b8 application_on_event(u16 code, void *sender, void *listener_inst,
-                        event_context context);
-b8 application_on_key(u16 code, void *sender, void *listener_inst,
-                      event_context context);
+b8 application_on_event(u16 code, void *sender, void *listener_inst, event_context context);
+b8 application_on_key(u16 code, void *sender, void *listener_inst, event_context context);
 
 b8 application_create(game *game_inst) {
   if (initialize) {
@@ -64,10 +62,8 @@ b8 application_create(game *game_inst) {
   event_register(EVENT_CODE_KEY_RELEASED, 0, application_on_key);
 
   if (!platform_startup(&app_state.platform, game_inst->app_config.name,
-                        game_inst->app_config.start_pos_x,
-                        game_inst->app_config.start_pos_y,
-                        game_inst->app_config.start_width,
-                        game_inst->app_config.start_height)) {
+                        game_inst->app_config.start_pos_x, game_inst->app_config.start_pos_y,
+                        game_inst->app_config.start_width, game_inst->app_config.start_height)) {
     return FALSE;
   }
 
@@ -83,8 +79,7 @@ b8 application_create(game *game_inst) {
     return FALSE;
   }
 
-  app_state.game_inst->on_resize(app_state.game_inst, app_state.width,
-                                 app_state.height);
+  app_state.game_inst->on_resize(app_state.game_inst, app_state.width, app_state.height);
 
   initialize = FALSE;
 
@@ -174,8 +169,7 @@ b8 application_run() {
   return TRUE;
 }
 
-b8 application_on_event(u16 code, void *sender, void *listener_inst,
-                        event_context context) {
+b8 application_on_event(u16 code, void *sender, void *listener_inst, event_context context) {
   switch (code) {
     case EVENT_CODE_APPLICATION_QUIT:
       KINFO("EVENT_CODE_APPLICATION_QUIT received, shutting down.\n");
@@ -186,8 +180,7 @@ b8 application_on_event(u16 code, void *sender, void *listener_inst,
   return FALSE;
 }
 
-b8 application_on_key(u16 code, void *sender, void *listener_inst,
-                      event_context context) {
+b8 application_on_key(u16 code, void *sender, void *listener_inst, event_context context) {
 
   if (code == EVENT_CODE_KEY_PRESSED) {
     u16 key_code = context.data.u16[0];

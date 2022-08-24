@@ -23,8 +23,7 @@ int main(void) {
   }
 
   // Ensure the function pointer exists
-  if (!game_inst.render || !game_inst.update || !game_inst.initialize ||
-      !game_inst.on_resize) {
+  if (!game_inst.render || !game_inst.update || !game_inst.initialize || !game_inst.on_resize) {
     KFATAL("The game's function pointers msut be assigned");
     return -2;
   }

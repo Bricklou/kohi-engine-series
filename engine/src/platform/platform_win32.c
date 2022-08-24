@@ -26,11 +26,10 @@ typedef struct internal_state {
 static f64 clock_frequency;
 static LARGE_INTEGER start_time;
 
-LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param,
-                                       LPARAM l_param);
+LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARAM l_param);
 
-b8 platform_startup(platform_state *plat_state, const char *application_name,
-                    i32 x, i32 y, i32 width, i32 height) {
+b8 platform_startup(platform_state *plat_state, const char *application_name, i32 x, i32 y,
+                    i32 width, i32 height) {
   plat_state->internal_state = malloc(sizeof(internal_state));
   internal_state *state = (internal_state *)plat_state->internal_state;
 
@@ -46,14 +45,12 @@ b8 platform_startup(platform_state *plat_state, const char *application_name,
   wc.cbWndExtra = 0;
   wc.hInstance = state->h_instance;
   wc.hIcon = icon;
-  wc.hCursor =
-      LoadCursor(NULL, IDC_ARROW); // NULL; // Manage the cursor manually
-  wc.hbrBackground = NULL;         // Transparent
+  wc.hCursor = LoadCursor(NULL, IDC_ARROW); // NULL; // Manage the cursor manually
+  wc.hbrBackground = NULL;                  // Transparent
   wc.lpszClassName = "kohi_window_class";
 
   if (!RegisterClassA(&wc)) {
-    MessageBoxA(0, "Window registration failed", "Error",
-                MB_ICONEXCLAMATION | MB_OK);
+    MessageBoxA(0, "Window registration failed", "Error", MB_ICONEXCLAMATION | MB_OK);
     return FALSE;
   }
 
@@ -88,13 +85,11 @@ b8 platform_startup(platform_state *plat_state, const char *application_name,
   window_height += border_rect.bottom - border_rect.top;
 
   HWND handle =
-      CreateWindowExA(window_ex_style, "kohi_window_class", application_name,
-                      window_style, window_x, window_y, window_width,
-                      window_height, 0, 0, state->h_instance, 0);
+      CreateWindowExA(window_ex_style, "kohi_window_class", application_name, window_style,
+                      window_x, window_y, window_width, window_height, 0, 0, state->h_instance, 0);
 
   if (handle == 0) {
-    MessageBoxA(NULL, "Window creation failed!", "Error!",
-                MB_ICONEXCLAMATION | MB_OK);
+    MessageBoxA(NULL, "Window creation failed!", "Error!", MB_ICONEXCLAMATION | MB_OK);
 
     KFATAL("Window creation failed!");
     return FALSE;
@@ -103,8 +98,7 @@ b8 platform_startup(platform_state *plat_state, const char *application_name,
   }
 
   // Show the window
-  b32 should_activate =
-      1; // TODO: if the window should not accept input, this should be false.
+  b32 should_activate = 1; // TODO: if the window should not accept input, this should be false.
   i32 show_window_command_flags = should_activate ? SW_SHOW : SW_SHOWNOACTIVATE;
   // If initially minimized, use SW_MINIMIZE : SW_SHOWMINNOACTIVE;
   // If initially maximized, use SW_SHOWMAXIMIZED : SW_MAXIMIZE
@@ -143,17 +137,13 @@ void *platform_allocate(u64 size, b8 aligned) { return malloc(size); }
 
 void platform_free(void *block, b8 aligned) { free(block); }
 
-void *platform_zero_memory(void *block, u64 size) {
-  return memset(block, 0, size);
-}
+void *platform_zero_memory(void *block, u64 size) { return memset(block, 0, size); }
 
 void *platform_copy_memory(void *dest, const void *source, u64 size) {
   return memcpy(dest, source, size);
 }
 
-void *platform_set_memory(void *dest, i32 value, u64 size) {
-  return memset(dest, value, size);
-}
+void *platform_set_memory(void *dest, i32 value, u64 size) { return memset(dest, value, size); }
 
 void platform_console_write(const char *message, u8 colour) {
   HANDLE console_handle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -163,8 +153,7 @@ void platform_console_write(const char *message, u8 colour) {
   OutputDebugStringA(message);
   u64 length = strlen(message);
   LPDWORD number_written = 0;
-  WriteConsoleA(GetStdHandle(STD_OUTPUT_HANDLE), message, (DWORD)length,
-                number_written, 0);
+  WriteConsoleA(GetStdHandle(STD_OUTPUT_HANDLE), message, (DWORD)length, number_written, 0);
 }
 
 void platform_console_write_error(const char *message, u8 colour) {
@@ -175,8 +164,7 @@ void platform_console_write_error(const char *message, u8 colour) {
   OutputDebugStringA(message);
   u64 length = strlen(message);
   LPDWORD number_written = 0;
-  WriteConsoleA(GetStdHandle(STD_ERROR_HANDLE), message, (DWORD)length,
-                number_written, 0);
+  WriteConsoleA(GetStdHandle(STD_ERROR_HANDLE), message, (DWORD)length, number_written, 0);
 }
 
 f64 platform_get_absolute_time() {
@@ -192,18 +180,16 @@ void platform_get_required_extension_names(const char ***names_darray) {
 }
 
 // Surface creation for Vulkan
-b8 platform_create_vulkan_surface(platform_state *plat_state,
-                                  vulkan_context *context) {
+b8 platform_create_vulkan_surface(platform_state *plat_state, vulkan_context *context) {
   // Simply cold-cast to the known type.
   internal_state *state = (internal_state *)plat_state->internal_state;
 
-  VkWin32SurfaceCreateInfoKHR create_info = {
-      VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR};
+  VkWin32SurfaceCreateInfoKHR create_info = {VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR};
   create_info.hinstance = state->h_instance;
   create_info.hwnd = state->hwnd;
 
-  VkResult result = vkCreateWin32SurfaceKHR(
-      context->instance, &create_info, context->allocator, &state->surface);
+  VkResult result =
+      vkCreateWin32SurfaceKHR(context->instance, &create_info, context->allocator, &state->surface);
   if (result != VK_SUCCESS) {
     KFATAL("Vulkan surface creation failed.");
     return FALSE;
@@ -213,8 +199,7 @@ b8 platform_create_vulkan_surface(platform_state *plat_state,
   return TRUE;
 }
 
-LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param,
-                                       LPARAM l_param) {
+LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARAM l_param) {
   switch (msg) {
     case WM_ERASEBKGND:
       // Notify the OS that erasing will be handled by the application to
@@ -277,8 +262,7 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param,
     case WM_MBUTTONUP:
     case WM_RBUTTONUP:
       {
-        b8 pressed = msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN ||
-                     msg == WM_MBUTTONDOWN;
+        b8 pressed = msg == WM_LBUTTONDOWN || msg == WM_RBUTTONDOWN || msg == WM_MBUTTONDOWN;
         buttons mouse_button = BUTTON_MAX_BUTTONS;
         switch (msg) {
           case WM_LBUTTONDOWN:
@@ -286,8 +270,7 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param,
             mouse_button = BUTTON_LEFT;
             break;
           case WM_MBUTTONDOWN:
-          case WM_MBUTTONUP; mouse_button = BUTTON_MIDDLE; break;
-              case WM_RBUTTONDOWN:
+          case WM_MBUTTONUP; mouse_button = BUTTON_MIDDLE; break; case WM_RBUTTONDOWN:
           case WM_RBUTTONUP;
             mouse_button = BUTTON_RIGHT;
             break;

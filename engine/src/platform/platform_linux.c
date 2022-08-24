@@ -44,8 +44,8 @@ typedef struct internal_state {
 // Key translation
 keys translate_keycode(u32 x_keycode);
 
-b8 platform_startup(platform_state *plat_state, const char *application_name,
-                    i32 x, i32 y, i32 width, i32 height) {
+b8 platform_startup(platform_state *plat_state, const char *application_name, i32 x, i32 y,
+                    i32 width, i32 height) {
   // Create the internal state
   plat_state->internal_state = malloc(sizeof(internal_state));
   internal_state *state = (internal_state *)plat_state->internal_state;
@@ -86,41 +86,39 @@ b8 platform_startup(platform_state *plat_state, const char *application_name,
   u32 event_mask = XCB_CW_BACK_PIXEL | XCB_CW_EVENT_MASK;
 
   // Listen for keyboard and mouse buttons
-  u32 event_values = XCB_EVENT_MASK_BUTTON_PRESS |
-                     XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_KEY_PRESS |
-                     XCB_EVENT_MASK_KEY_RELEASE | XCB_EVENT_MASK_EXPOSURE |
-                     XCB_EVENT_MASK_POINTER_MOTION |
+  u32 event_values = XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE |
+                     XCB_EVENT_MASK_KEY_PRESS | XCB_EVENT_MASK_KEY_RELEASE |
+                     XCB_EVENT_MASK_EXPOSURE | XCB_EVENT_MASK_POINTER_MOTION |
                      XCB_EVENT_MASK_STRUCTURE_NOTIFY;
 
   // Values to be sent over XCB (bg color, events)
   u32 value_list[] = {state->screen->black_pixel, event_values};
 
   // Create the window
-  xcb_void_cookie_t cookie =
-      xcb_create_window(state->connection,
-                        XCB_COPY_FROM_PARENT, // depth
-                        state->window,
-                        state->screen->root,           // parent
-                        x,                             // x
-                        y,                             // y
-                        width,                         // width
-                        height,                        // height
-                        0,                             // No border
-                        XCB_WINDOW_CLASS_INPUT_OUTPUT, // class
-                        state->screen->root_visual, event_mask, value_list);
+  xcb_void_cookie_t cookie = xcb_create_window(state->connection,
+                                               XCB_COPY_FROM_PARENT, // depth
+                                               state->window,
+                                               state->screen->root,           // parent
+                                               x,                             // x
+                                               y,                             // y
+                                               width,                         // width
+                                               height,                        // height
+                                               0,                             // No border
+                                               XCB_WINDOW_CLASS_INPUT_OUTPUT, // class
+                                               state->screen->root_visual, event_mask, value_list);
 
   // Change the title
-  xcb_change_property(state->connection, XCB_PROP_MODE_REPLACE, state->window,
-                      XCB_ATOM_WM_NAME, XCB_ATOM_STRING,
+  xcb_change_property(state->connection, XCB_PROP_MODE_REPLACE, state->window, XCB_ATOM_WM_NAME,
+                      XCB_ATOM_STRING,
                       8, // data should be viewed 8 bits at a time
                       strlen(application_name), application_name);
 
   // Tell the server to notify when the window manager
   // attempts to destroy the window.
-  xcb_intern_atom_cookie_t wm_delete_cookie = xcb_intern_atom(
-      state->connection, 0, strlen("WM_DELETE_WINDOW"), "WM_DELETE_WINDOW");
-  xcb_intern_atom_cookie_t wm_protocols_cookie = xcb_intern_atom(
-      state->connection, 0, strlen("WM_PROTOCOLS"), "WM_PROTOCOLS");
+  xcb_intern_atom_cookie_t wm_delete_cookie =
+      xcb_intern_atom(state->connection, 0, strlen("WM_DELETE_WINDOW"), "WM_DELETE_WINDOW");
+  xcb_intern_atom_cookie_t wm_protocols_cookie =
+      xcb_intern_atom(state->connection, 0, strlen("WM_PROTOCOLS"), "WM_PROTOCOLS");
   xcb_intern_atom_reply_t *wm_delete_reply =
       xcb_intern_atom_reply(state->connection, wm_delete_cookie, NULL);
   xcb_intern_atom_reply_t *wm_protocols_reply =
@@ -129,8 +127,7 @@ b8 platform_startup(platform_state *plat_state, const char *application_name,
   state->wm_protocols = wm_protocols_reply->atom;
 
   xcb_change_property(state->connection, XCB_PROP_MODE_REPLACE, state->window,
-                      wm_protocols_reply->atom, 4, 32, 1,
-                      &wm_delete_reply->atom);
+                      wm_protocols_reply->atom, 4, 32, 1, &wm_delete_reply->atom);
 
   // Map the window to the screen
   xcb_map_window(state->connection, state->window);
@@ -182,10 +179,9 @@ b8 platform_pump_message(platform_state *plat_state) {
           b8 pressed = event->response_type == XCB_KEY_PRESS;
           xcb_keycode_t code = kb_event->detail;
 
-          KeySym key_sym =
-              XkbKeycodeToKeysym(state->display,
-                                 (KeyCode)code, // event.xkey.keycode
-                                 0, code & ShiftMask ? 1 : 0);
+          KeySym key_sym = XkbKeycodeToKeysym(state->display,
+                                              (KeyCode)code, // event.xkey.keycode
+                                              0, code & ShiftMask ? 1 : 0);
 
           keys key = translate_keycode(key_sym);
 
@@ -196,8 +192,7 @@ b8 platform_pump_message(platform_state *plat_state) {
       case XCB_BUTTON_PRESS:
       case XCB_BUTTON_RELEASE:
         {
-          xcb_button_press_event_t *mouse_event =
-              (xcb_button_press_event_t *)event;
+          xcb_button_press_event_t *mouse_event = (xcb_button_press_event_t *)event;
           b8 pressed = event->response_type == XCB_BUTTON_PRESS;
           buttons mouse_button = BUTTON_MAX_BUTTONS;
           switch (mouse_event->detail) {
@@ -221,8 +216,7 @@ b8 platform_pump_message(platform_state *plat_state) {
       case XCB_MOTION_NOTIFY:
         {
           // Mouse move
-          xcb_motion_notify_event_t *move_event =
-              (xcb_motion_notify_event_t *)event;
+          xcb_motion_notify_event_t *move_event = (xcb_motion_notify_event_t *)event;
 
           // Pass over to the input subsystem
           input_process_mouse_move(move_event->event_x, move_event->event_y);
@@ -259,28 +253,22 @@ void *platform_allocate(u64 size, b8 aligned) { return malloc(size); }
 
 void platform_free(void *block, b8 aligned) { free(block); }
 
-void *platform_zero_memory(void *block, u64 size) {
-  return memset(block, 0, size);
-}
+void *platform_zero_memory(void *block, u64 size) { return memset(block, 0, size); }
 
 void *platform_copy_memory(void *dest, const void *source, u64 size) {
   return memcpy(dest, source, size);
 }
 
-void *platform_set_memory(void *dest, i32 value, u64 size) {
-  return memset(dest, value, size);
-}
+void *platform_set_memory(void *dest, i32 value, u64 size) { return memset(dest, value, size); }
 
 void platform_console_write(const char *message, u8 colour) {
   // FATAL,ERROR,WARN,INFO,DEBUG,TRACE
-  const char *colour_strings[] = {"0;41", "1;31", "1;33",
-                                  "1;32", "1;34", "1;30"};
+  const char *colour_strings[] = {"0;41", "1;31", "1;33", "1;32", "1;34", "1;30"};
   printf("\033[%sm%s\033[0m", colour_strings[colour], message);
 }
 void platform_console_write_error(const char *message, u8 colour) {
   // FATAL,ERROR,WARN,INFO,DEBUG,TRACE
-  const char *colour_strings[] = {"0;41", "1;31", "1;33",
-                                  "1;32", "1;34", "1;30"};
+  const char *colour_strings[] = {"0;41", "1;31", "1;33", "1;32", "1;34", "1;30"};
   printf("\033[%sm%s\033[0m", colour_strings[colour], message);
 }
 
@@ -309,18 +297,16 @@ void platform_get_required_extension_names(const char ***names_darray) {
 }
 
 // Surface creation for Vulkan
-b8 platform_create_vulkan_surface(platform_state *plat_state,
-                                  vulkan_context *context) {
+b8 platform_create_vulkan_surface(platform_state *plat_state, vulkan_context *context) {
   // Simple cold-cast to the known type
   internal_state *state = (internal_state *)plat_state->internal_state;
 
-  VkXcbSurfaceCreateInfoKHR create_info = {
-      VK_STRUCTURE_TYPE_XCB_SURFACE_CREATE_INFO_KHR};
+  VkXcbSurfaceCreateInfoKHR create_info = {VK_STRUCTURE_TYPE_XCB_SURFACE_CREATE_INFO_KHR};
   create_info.connection = state->connection;
   create_info.window = state->window;
 
-  VkResult result = vkCreateXcbSurfaceKHR(context->instance, &create_info,
-                                          context->allocator, &state->surface);
+  VkResult result =
+      vkCreateXcbSurfaceKHR(context->instance, &create_info, context->allocator, &state->surface);
   if (result != VK_SUCCESS) {
     KFATAL("Vulkan surface creation failed.");
     return FALSE;

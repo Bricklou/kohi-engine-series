@@ -13,10 +13,9 @@ struct memory_stats {
 };
 
 static const char *memory_tag_strings[MEMORY_TAG_MAX_TAGS] = {
-    "UNKNOW     ", "ARRAY      ", "DARRAY     ", "DICT       ", "RING_QUEUE ",
-    "BST        ", "STRING     ", "APPLICATION", "JOB        ", "TEXTURE    ",
-    "MAT_INST   ", "RENDERER   ", "GAME       ", "TRANSFORM  ", "ENTITY     ",
-    "ENTITY_NODE", "SCENE      "};
+    "UNKNOW     ", "ARRAY      ", "DARRAY     ", "DICT       ", "RING_QUEUE ", "BST        ",
+    "STRING     ", "APPLICATION", "JOB        ", "TEXTURE    ", "MAT_INST   ", "RENDERER   ",
+    "GAME       ", "TRANSFORM  ", "ENTITY     ", "ENTITY_NODE", "SCENE      "};
 
 static struct memory_stats stats;
 
@@ -26,8 +25,7 @@ void shutdown_memory() {}
 
 void *kallocate(u64 size, memory_tag tag) {
   if (tag == MEMORY_TAG_UNKNOWN) {
-    KWARN(
-        "kallocate called using MEMORY_TAG_UNKNOWN. Re-class this allocation.");
+    KWARN("kallocate called using MEMORY_TAG_UNKNOWN. Re-class this allocation.");
   }
 
   stats.total_allocated += size;
@@ -51,9 +49,7 @@ void kfree(void *block, u64 size, memory_tag tag) {
   platform_free(block, FALSE);
 }
 
-void *kzero_memory(void *block, u64 size) {
-  return platform_zero_memory(block, size);
-}
+void *kzero_memory(void *block, u64 size) { return platform_zero_memory(block, size); }
 
 void *kcopy_memory(void *dest, const void *source, u64 size) {
   return platform_copy_memory(dest, source, size);
@@ -88,8 +84,8 @@ char *get_memory_usage_str() {
       amount = (float)stats.tagged_allocated[i];
     }
 
-    i32 length = snprintf(buffer + offset, 8000, "  %s: %.2f%s\n",
-                          memory_tag_strings[i], amount, unit);
+    i32 length =
+        snprintf(buffer + offset, 8000, "  %s: %.2f%s\n", memory_tag_strings[i], amount, unit);
     offset += length;
   }
 
